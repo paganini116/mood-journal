@@ -1,15 +1,15 @@
 :root {
-  --bg: #f4f5f7;
-  --surface: rgba(255, 255, 255, 0.72);
-  --surface-strong: rgba(255, 255, 255, 0.88);
-  --surface-border: rgba(24, 30, 42, 0.08);
-  --text: #10131a;
-  --muted: #5d6472;
-  --accent: #111827;
-  --accent-soft: #eef2ff;
-  --success: #dff5e5;
-  --warning: #fff2d8;
-  --shadow: 0 24px 70px rgba(17, 24, 39, 0.08);
+  --bg: #f2e9dc;
+  --surface: rgba(242, 233, 220, 0.74);
+  --surface-strong: rgba(248, 242, 234, 0.9);
+  --surface-border: rgba(15, 53, 39, 0.12);
+  --text: #0f3527;
+  --muted: #31785a;
+  --accent: #19513c;
+  --accent-soft: #dce8df;
+  --success: #dceadf;
+  --warning: #e6d4a2;
+  --shadow: 0 24px 70px rgba(15, 53, 39, 0.1);
   --radius-xl: 32px;
   --radius-lg: 24px;
   --radius-md: 18px;
@@ -25,9 +25,9 @@ body {
   font-family: "Manrope", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(185, 205, 255, 0.55), transparent 32%),
-    radial-gradient(circle at top right, rgba(255, 211, 178, 0.48), transparent 30%),
-    linear-gradient(180deg, #fbfbfc 0%, #eef1f6 100%);
+    radial-gradient(circle at top left, rgba(49, 120, 90, 0.22), transparent 32%),
+    radial-gradient(circle at top right, rgba(195, 168, 115, 0.28), transparent 30%),
+    linear-gradient(180deg, #f6f0e6 0%, #ede3d1 100%);
 }
 
 a {
@@ -55,13 +55,13 @@ textarea {
 .page-glow-left {
   top: -6rem;
   left: -9rem;
-  background: rgba(170, 196, 255, 0.8);
+  background: rgba(49, 120, 90, 0.55);
 }
 
 .page-glow-right {
   top: 10rem;
   right: -10rem;
-  background: rgba(255, 205, 173, 0.8);
+  background: rgba(195, 168, 115, 0.6);
 }
 
 .shell {
@@ -81,7 +81,7 @@ textarea {
   padding: 1rem 1.25rem;
   border: 1px solid var(--surface-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(248, 242, 234, 0.62);
   backdrop-filter: blur(20px);
   box-shadow: var(--shadow);
 }
@@ -97,8 +97,8 @@ textarea {
   width: 0.9rem;
   height: 0.9rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, #7aa2ff, #ffc08c);
-  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.45);
+  background: linear-gradient(135deg, #19513c, #c3a873);
+  box-shadow: 0 0 0 6px rgba(248, 242, 234, 0.55);
 }
 
 .site-nav {
@@ -125,11 +125,11 @@ textarea {
 }
 
 .flash-error {
-  background: #fff1f0;
+  background: #f3ddd4;
 }
 
 .flash-success {
-  background: #edf9f0;
+  background: #dceadf;
 }
 
 .hero,
@@ -202,7 +202,7 @@ textarea {
 
 .auth-panel,
 .composer-panel {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(248, 242, 234, 0.84);
 }
 
 .panel-header h2,
@@ -239,7 +239,7 @@ textarea {
 .feature-card,
 .entry-card,
 .note-panel {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(248, 242, 234, 0.58);
 }
 
 .entry-card {
@@ -286,15 +286,15 @@ textarea {
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: capitalize;
-  background: rgba(17, 24, 39, 0.08);
+  background: rgba(25, 81, 60, 0.12);
 }
 
 .status-needs_attention {
-  background: var(--warning);
+  background: #e6d4a2;
 }
 
 .status-complete {
-  background: var(--success);
+  background: #dceadf;
 }
 
 .button {
@@ -304,16 +304,16 @@ textarea {
   border: 0;
   border-radius: 999px;
   padding: 0.95rem 1.4rem;
-  background: linear-gradient(135deg, #111827, #283347);
+  background: linear-gradient(135deg, #19513c, #0f3527);
   color: #fff;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 16px 34px rgba(17, 24, 39, 0.18);
+  box-shadow: 0 16px 34px rgba(15, 53, 39, 0.18);
 }
 
 .button-ghost {
   padding: 0.75rem 1rem;
-  background: rgba(17, 24, 39, 0.08);
+  background: rgba(25, 81, 60, 0.1);
   color: var(--text);
   box-shadow: none;
 }
@@ -336,10 +336,10 @@ textarea {
 .field input,
 .field textarea {
   width: 100%;
-  border: 1px solid rgba(16, 19, 26, 0.1);
+  border: 1px solid rgba(15, 53, 39, 0.12);
   border-radius: 1.15rem;
   padding: 0.95rem 1rem;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(251, 247, 240, 0.96);
   color: var(--text);
   resize: vertical;
   min-height: 3.25rem;
@@ -347,7 +347,7 @@ textarea {
 
 .field input:focus,
 .field textarea:focus {
-  outline: 2px solid rgba(122, 162, 255, 0.45);
+  outline: 2px solid rgba(49, 120, 90, 0.32);
   border-color: transparent;
 }
 
@@ -369,8 +369,8 @@ textarea {
   margin-top: 2rem;
   padding: 1.2rem;
   border-radius: var(--radius-lg);
-  background: #fff5e8;
-  border: 1px solid rgba(228, 174, 74, 0.28);
+  background: rgba(230, 212, 162, 0.42);
+  border: 1px solid rgba(195, 168, 115, 0.42);
 }
 
 @media (max-width: 900px) {
