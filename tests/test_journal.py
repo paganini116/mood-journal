@@ -88,3 +88,31 @@ def test_safety_note_marks_entry_for_attention(client, db, monkeypatch):
     ).fetchone()
 
     assert entry["analysis_status"] == "needs_attention"
+
+
+def test_user_cannot_view_someone_else_entry_detail(client, db, monkeypatch):
+    create_user(client, email="first@example.com")
+    monkeypatch.setattr("app.journal.JournalAnalyzer", lambda: StubAnalyzer())
+    client.post(
+        "/auth/login",
+        data={"email": "first@example.com", "password": "password123"},
+        follow_redirects=True,
+    )
+    client.post(
+        "/journal/new",
+        data={"raw_text": "Private entry."},
+        follow_redirects=True,
+    )
+    client.post("/auth/logout", follow_redirects=True)
+
+    create_user(client, email="second@example.com")
+    client.post(
+        "/auth/login",
+        data={"email": "second@example.com", "password": "password123"},
+        follow_redirects=True,
+    )
+
+    response = client.get("/journal/1", follow_redirects=True)
+
+    assert response.status_code == 200
+    assert b"That entry could not be found." in response.data

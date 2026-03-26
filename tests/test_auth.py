@@ -16,6 +16,7 @@ def test_signup_creates_user_and_hashes_password(client, db):
     assert user is not None
     assert user["password_hash"] != "password123"
     assert check_password_hash(user["password_hash"], "password123")
+    assert user["role"] == "user"
 
 
 def test_login_logout_flow(client):

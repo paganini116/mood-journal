@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Overview | Mood Journal{% endblock %}
+
+{% block content %}
+  <section class="dashboard-hero">
+    <div>
+      <p class="eyebrow">Admin overview</p>
+      <h1>Operational visibility without exposing private journal content.</h1>
+      <p class="lede">
+        This dashboard is intentionally metadata-only. It tracks usage, flagged activity, and system-level patterns while keeping raw journal entries out of the admin surface.
+      </p>
+    </div>
+  </section>
+
+  <section class="admin-stat-grid">
+    <article class="panel stat-card">
+      <p class="eyebrow">Users</p>
+      <h2>{{ totals["users"] }}</h2>
+    </article>
+    <article class="panel stat-card">
+      <p class="eyebrow">Entries</p>
+      <h2>{{ totals["entries"] }}</h2>
+    </article>
+    <article class="panel stat-card">
+      <p class="eyebrow">Flagged</p>
+      <h2>{{ totals["flagged_entries"] }}</h2>
+    </article>
+  </section>
+
+  <section class="admin-grid">
+    <article class="panel">
+      <p class="eyebrow">Entries by status</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in entry_status_counts %}
+              <tr>
+                <td>{{ row["analysis_status"].replace('_', ' ') }}</td>
+                <td>{{ row["count"] }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="panel">
+      <p class="eyebrow">Recent flagged events</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Entry ID</th>
+              <th>User</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in flagged_entries %}
+              <tr>
+                <td>#{{ row["id"] }}</td>
+                <td>{{ row["email"] }}</td>
+                <td>{{ row["analysis_status"].replace('_', ' ') }}</td>
+                <td>{{ row["created_at"] }}</td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4">No flagged entries.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <section class="admin-grid">
+    <article class="panel">
+      <p class="eyebrow">User activity</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Role</th>
+              <th>Entries</th>
+              <th>Flagged</th>
+              <th>Last entry</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in user_activity %}
+              <tr>
+                <td>{{ row["email"] }}</td>
+                <td>{{ row["role"] }}</td>
+                <td>{{ row["entry_count"] }}</td>
+                <td>{{ row["flagged_count"] or 0 }}</td>
+                <td>{{ row["last_entry_at"] or "No entries yet" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="panel">
+      <p class="eyebrow">Admin audit log</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Admin</th>
+              <th>Action</th>
+              <th>Target</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in recent_admin_events %}
+              <tr>
+                <td>{{ row["email"] }}</td>
+                <td>{{ row["action"] }}</td>
+                <td>{{ row["target_type"] }}</td>
+                <td>{{ row["created_at"] }}</td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4">No admin actions logged yet.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+{% endblock %}

@@ -217,7 +217,9 @@ textarea {
 
 .feature-list,
 .entry-grid,
-.detail-grid {
+.detail-grid,
+.admin-stat-grid,
+.admin-grid {
   display: grid;
   gap: 1rem;
 }
@@ -231,6 +233,16 @@ textarea {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
+.admin-stat-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.admin-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
 .detail-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 2rem;
@@ -238,8 +250,15 @@ textarea {
 
 .feature-card,
 .entry-card,
-.note-panel {
+.note-panel,
+.stat-card {
   background: rgba(248, 242, 234, 0.58);
+}
+
+.stat-card h2 {
+  margin: 0;
+  font-size: 2.6rem;
+  font-family: "Fraunces", serif;
 }
 
 .entry-card {
@@ -373,11 +392,37 @@ textarea {
   border: 1px solid rgba(195, 168, 115, 0.42);
 }
 
+.table-wrap {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(15, 53, 39, 0.1);
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.data-table th {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 @media (max-width: 900px) {
   .hero-auth,
   .dashboard-hero,
   .composer-layout,
-  .detail-grid {
+  .detail-grid,
+  .admin-stat-grid,
+  .admin-grid {
     grid-template-columns: 1fr;
   }
 

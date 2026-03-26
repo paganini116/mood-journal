@@ -28,6 +28,19 @@ def login_required(view):
     return wrapped_view
 
 
+def admin_required(view):
+    @wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for("auth.login"))
+        if g.user["role"] != "admin":
+            flash("You do not have permission to access that page.", "error")
+            return redirect(url_for("journal.dashboard"))
+        return view(**kwargs)
+
+    return wrapped_view
+
+
 @auth_bp.route("/signup", methods=("GET", "POST"))
 def signup():
     if g.user:
@@ -58,8 +71,8 @@ def signup():
         if error is None:
             db.execute(
                 """
-                INSERT INTO users (email, password_hash)
-                VALUES (?, ?)
+                INSERT INTO users (email, password_hash, role)
+                VALUES (?, ?, 'user')
                 """,
                 (email, generate_password_hash(password)),
             )

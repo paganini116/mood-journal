@@ -4,6 +4,7 @@ from pathlib import Path
 from flask import Flask, g, redirect, session, url_for
 
 from .auth import auth_bp
+from .admin import admin_bp
 from .db import close_db, get_db, init_db
 from .journal import journal_bp
 
@@ -32,6 +33,7 @@ def create_app(test_config=None):
     app.teardown_appcontext(close_db)
 
     app.register_blueprint(auth_bp)
+    app.register_blueprint(admin_bp)
     app.register_blueprint(journal_bp)
 
     @app.before_request

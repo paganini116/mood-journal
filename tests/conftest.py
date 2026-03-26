@@ -42,3 +42,14 @@ def create_user(client, email="test@example.com", password="password123"):
         data={"email": email, "password": password},
         follow_redirects=True,
     )
+
+
+def create_admin(db, email="admin@example.com", password_hash="not-used"):
+    db.execute(
+        """
+        INSERT INTO users (email, password_hash, role)
+        VALUES (?, ?, 'admin')
+        """,
+        (email, password_hash),
+    )
+    db.commit()
