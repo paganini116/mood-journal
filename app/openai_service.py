@@ -14,18 +14,52 @@ class JournalAnalyzer:
 
         flagged_for_safety = self._detect_crisis_language(entry_text)
         prompt = self._build_prompt(entry_text)
+        model = current_app.config["OPENAI_MODEL"]
 
         try:
             raw_response = self.client.responses.create(
-                model=current_app.config["OPENAI_MODEL"],
+                model=model,
                 input=prompt,
             )
             payload = json.loads(raw_response.output_text)
-            return self._normalize_result(payload)
+            normalized = self._normalize_result(payload)
+            if normalized is None:
+                return self._fallback_with_metadata(
+                    flagged_for_safety=flagged_for_safety,
+                    model=model,
+                    source="fallback_invalid_shape",
+                    reason="openai_response_missing_required_fields",
+                )
+
+            normalized["analysis_source"] = "openai"
+            normalized["analysis_model"] = model
+            normalized["analysis_reason"] = "openai_response_valid"
+            return normalized
+        except json.JSONDecodeError:
+            return self._fallback_with_metadata(
+                flagged_for_safety=flagged_for_safety,
+                model=model,
+                source="fallback_parse_error",
+                reason="openai_response_not_valid_json",
+            )
         except Exception:
-            if flagged_for_safety:
-                return self._safety_fallback_result()
-            return self._fallback_result()
+            return self._fallback_with_metadata(
+                flagged_for_safety=flagged_for_safety,
+                model=model,
+                source="fallback_error",
+                reason="openai_request_failed",
+            )
+
+    def _fallback_with_metadata(self, flagged_for_safety, model, source, reason):
+        if flagged_for_safety:
+            result = self._safety_fallback_result()
+        else:
+            result = self._fallback_result()
+
+        result["analysis_source"] = source
+        result["analysis_model"] = model
+        result["analysis_reason"] = reason
+        return result
 
     @property
     def client(self):
@@ -86,7 +120,7 @@ Journal entry:
                 "feel_better_recommendation",
             )
         ):
-            return self._fallback_result()
+            return None
 
         return normalized
 

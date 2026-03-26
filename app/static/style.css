@@ -374,6 +374,13 @@ textarea {
   color: var(--muted);
 }
 
+.analysis-live-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
 .empty-state {
   text-align: center;
   padding: 3rem;

@@ -19,7 +19,7 @@
     </div>
 
     <div class="panel composer-panel">
-      <form class="stack" method="post">
+      <form class="stack" method="post" action="{{ url_for('journal.new_entry') }}" data-analyze-form>
         <label class="field">
           <span>Journal entry</span>
           <textarea
@@ -29,8 +29,52 @@
             required
           >{{ request.form.get('raw_text', '') }}</textarea>
         </label>
-        <button class="button" type="submit">Save and reflect</button>
+        <button class="button" type="submit" data-submit-button>Save and reflect</button>
+        <p class="analysis-live-meta" data-analysis-meta hidden></p>
       </form>
     </div>
   </section>
+
+  <script>
+    const analyzeForm = document.querySelector("[data-analyze-form]");
+
+    if (analyzeForm) {
+      const submitButton = analyzeForm.querySelector("[data-submit-button]");
+      const analysisMeta = analyzeForm.querySelector("[data-analysis-meta]");
+
+      analyzeForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(analyzeForm);
+        submitButton.disabled = true;
+        submitButton.textContent = "Analyzing...";
+        analysisMeta.hidden = true;
+
+        try {
+          const response = await fetch("{{ url_for('journal.analyze_entry') }}", {
+            method: "POST",
+            body: formData,
+            headers: {
+              "X-Requested-With": "fetch",
+              "Accept": "application/json"
+            }
+          });
+
+          const payload = await response.json();
+
+          if (!response.ok) {
+            throw new Error(payload.error || "Analysis failed.");
+          }
+
+          window.location.href = payload.redirect_url;
+        } catch (error) {
+          analysisMeta.hidden = false;
+          analysisMeta.textContent = error.message;
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Save and reflect";
+        }
+      });
+    }
+  </script>
 {% endblock %}

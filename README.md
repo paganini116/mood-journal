@@ -20,18 +20,19 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. Configure environment variables:
+2. Create your local environment file:
 
 ```bash
-export FLASK_APP=app.py
-export SECRET_KEY="change-me"
-export OPENAI_API_KEY="your-api-key"
+cp .env.example .env
 ```
 
-Optional:
+Then edit `.env` and set at least:
 
 ```bash
-export OPENAI_MODEL="gpt-5.2"
+FLASK_APP=app.py
+SECRET_KEY=change-me
+OPENAI_API_KEY=your-api-key
+OPENAI_MODEL=gpt-5.4
 ```
 
 3. Start the app:

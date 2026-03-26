@@ -22,7 +22,7 @@ def create_app(test_config=None):
             str(instance_path / "mood_journal.sqlite3"),
         ),
         OPENAI_API_KEY=os.environ.get("OPENAI_API_KEY"),
-        OPENAI_MODEL=os.environ.get("OPENAI_MODEL", "gpt-5.2"),
+        OPENAI_MODEL=os.environ.get("OPENAI_MODEL", "gpt-5.4"),
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
     )

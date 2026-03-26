@@ -9,6 +9,9 @@ class StubAnalyzer:
             "summary": "The user had a demanding day but still found signs of progress.",
             "feel_better_recommendation": "Take a short walk and write down one win from today.",
             "safety_note": "",
+            "analysis_source": "openai",
+            "analysis_model": "gpt-5.4",
+            "analysis_reason": "openai_response_valid",
         }
 
 
@@ -20,6 +23,9 @@ class SafetyAnalyzer:
             "summary": "The entry suggests an urgent need for support.",
             "feel_better_recommendation": "Reach out to a trusted person right now and avoid being alone.",
             "safety_note": "You deserve immediate support from a real person right now.",
+            "analysis_source": "fallback_error",
+            "analysis_model": "gpt-5.4",
+            "analysis_reason": "openai_request_failed",
         }
 
 
@@ -116,3 +122,23 @@ def test_user_cannot_view_someone_else_entry_detail(client, db, monkeypatch):
 
     assert response.status_code == 200
     assert b"That entry could not be found." in response.data
+
+
+def test_analyze_endpoint_returns_browser_visible_metadata(client, monkeypatch):
+    login(client)
+    monkeypatch.setattr("app.journal.JournalAnalyzer", lambda: StubAnalyzer())
+
+    response = client.post(
+        "/journal/analyze",
+        data={"raw_text": "Today was stressful, but I handled it."},
+    )
+
+    payload = response.get_json()
+
+    assert response.status_code == 200
+    assert payload["analysis_source"] == "openai"
+    assert payload["analysis_model"] == "gpt-5.4"
+    assert payload["analysis_reason"] == "openai_response_valid"
+    assert response.headers["X-Analysis-Source"] == "openai"
+    assert response.headers["X-Analysis-Reason"] == "openai_response_valid"
+    assert response.headers["X-Upstream-Provider"] == "openai-responses-api"

@@ -27,6 +27,9 @@ def init_db():
     schema_path = Path(__file__).with_name("schema.sql")
     db.executescript(schema_path.read_text(encoding="utf-8"))
     _ensure_column(db, "users", "role", "TEXT NOT NULL DEFAULT 'user'")
+    _ensure_column(db, "journal_entries", "analysis_source", "TEXT")
+    _ensure_column(db, "journal_entries", "analysis_model", "TEXT")
+    _ensure_column(db, "journal_entries", "analysis_reason", "TEXT")
     db.commit()
 
 
