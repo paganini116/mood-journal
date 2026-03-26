@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account | Mood Journal{% endblock %}
+
+{% block content %}
+  <section class="hero hero-auth">
+    <div class="hero-copy">
+      <p class="eyebrow">Build a calmer journaling ritual</p>
+      <h1>Create a space to notice your mood patterns with clarity and care.</h1>
+      <p class="lede">
+        Start with a simple account, write freely, and get a structured wellness reflection back after every entry.
+      </p>
+    </div>
+
+    <div class="panel auth-panel">
+      <div class="panel-header">
+        <p class="eyebrow">Start here</p>
+        <h2>Create account</h2>
+      </div>
+      <form class="stack" method="post">
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="you@example.com" required>
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" name="password" placeholder="Choose 8+ characters" required>
+        </label>
+        <button class="button" type="submit">Create account</button>
+      </form>
+      <p class="panel-meta">
+        Already have an account?
+        <a href="{{ url_for('auth.login') }}">Sign in</a>
+      </p>
+    </div>
+  </section>
+{% endblock %}

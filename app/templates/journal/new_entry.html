@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}New Entry | Mood Journal{% endblock %}
+
+{% block content %}
+  <section class="composer-layout">
+    <div class="composer-copy">
+      <p class="eyebrow">New reflection</p>
+      <h1>Write what happened and how it feels right now.</h1>
+      <p class="lede">
+        There is no perfect format. A few sentences is enough. Mood Journal will reflect back tone, current state, and one gentle next step.
+      </p>
+      <div class="panel note-panel">
+        <h2>Important note</h2>
+        <p>
+          This app provides wellness-oriented reflections and is not a substitute for licensed mental health care.
+        </p>
+      </div>
+    </div>
+
+    <div class="panel composer-panel">
+      <form class="stack" method="post">
+        <label class="field">
+          <span>Journal entry</span>
+          <textarea
+            name="raw_text"
+            rows="14"
+            placeholder="Today felt heavier than I expected..."
+            required
+          >{{ request.form.get('raw_text', '') }}</textarea>
+        </label>
+        <button class="button" type="submit">Save and reflect</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

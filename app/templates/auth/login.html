@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In | Mood Journal{% endblock %}
+
+{% block content %}
+  <section class="hero hero-auth">
+    <div class="hero-copy">
+      <p class="eyebrow">Private reflection, gently guided</p>
+      <h1>A sleek daily journal that helps you understand your emotional tone.</h1>
+      <p class="lede">
+        Capture what happened, how it felt, and what might help next.
+        Mood Journal offers supportive wellness reflections, not therapy.
+      </p>
+      <div class="feature-list">
+        <div class="feature-card">
+          <h2>Structured insight</h2>
+          <p>Tone, current state, summary, and one grounded next step.</p>
+        </div>
+        <div class="feature-card">
+          <h2>Private history</h2>
+          <p>Your entries stay tied to your account so you can revisit patterns over time.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel auth-panel">
+      <div class="panel-header">
+        <p class="eyebrow">Welcome back</p>
+        <h2>Sign in</h2>
+      </div>
+      <form class="stack" method="post">
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="you@example.com" required>
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" name="password" placeholder="At least 8 characters" required>
+        </label>
+        <button class="button" type="submit">Enter your journal</button>
+      </form>
+      <p class="panel-meta">
+        New here?
+        <a href="{{ url_for('auth.signup') }}">Create an account</a>
+      </p>
+    </div>
+  </section>
+{% endblock %}

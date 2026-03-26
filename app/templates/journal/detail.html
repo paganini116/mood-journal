@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Entry Detail | Mood Journal{% endblock %}
+
+{% block content %}
+  <section class="detail-layout">
+    <article class="panel detail-panel">
+      <div class="detail-head">
+        <div>
+          <p class="eyebrow">Journal entry</p>
+          <h1>{{ entry["tone"] }}</h1>
+        </div>
+        <span class="status-pill status-{{ entry['analysis_status'] }}">{{ entry["analysis_status"].replace('_', ' ') }}</span>
+      </div>
+
+      <div class="detail-grid">
+        <section>
+          <h2>What you wrote</h2>
+          <p class="longform">{{ entry["raw_text"] }}</p>
+        </section>
+        <section>
+          <h2>Current state</h2>
+          <p>{{ entry["current_state"] }}</p>
+        </section>
+        <section>
+          <h2>Summary</h2>
+          <p>{{ entry["summary"] }}</p>
+        </section>
+        <section>
+          <h2>Feel better recommendation</h2>
+          <p>{{ entry["feel_better_recommendation"] }}</p>
+        </section>
+      </div>
+
+      {% if entry["safety_note"] %}
+        <section class="safety-card">
+          <h2>Support note</h2>
+          <p>{{ entry["safety_note"] }}</p>
+          <p>If you feel in immediate danger, call 911 or reach out to 988 in the United States for immediate support.</p>
+        </section>
+      {% endif %}
+    </article>
+  </section>
+{% endblock %}

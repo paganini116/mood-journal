@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Mood Journal{% endblock %}
+
+{% block content %}
+  <section class="dashboard-hero">
+    <div>
+      <p class="eyebrow">Your journal</p>
+      <h1>Track how your inner weather shifts over time.</h1>
+      <p class="lede">
+        Write freely, then review a grounded reflection that captures your tone, current state, and one supportive next step.
+      </p>
+    </div>
+    <a class="button" href="{{ url_for('journal.new_entry') }}">Write a new entry</a>
+  </section>
+
+  {% if entries %}
+    <section class="entry-grid">
+      {% for entry in entries %}
+        <article class="panel entry-card">
+          <div class="entry-card-head">
+            <p class="entry-date">{{ entry["created_at"] }}</p>
+            <span class="status-pill status-{{ entry['analysis_status'] }}">{{ entry["analysis_status"].replace('_', ' ') }}</span>
+          </div>
+          <h2>{{ entry["tone"] or "Awaiting reflection" }}</h2>
+          <p>{{ entry["summary"] or entry["raw_text"][:180] ~ "..." }}</p>
+          <div class="entry-card-foot">
+            <span>{{ entry["current_state"] or "Processing your reflection..." }}</span>
+            <a href="{{ url_for('journal.entry_detail', entry_id=entry['id']) }}">Open</a>
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+  {% else %}
+    <section class="panel empty-state">
+      <p class="eyebrow">No entries yet</p>
+      <h2>Your first check-in can be simple.</h2>
+      <p>Write a few honest lines about your day, your stress, or what feels heavy right now.</p>
+      <a class="button" href="{{ url_for('journal.new_entry') }}">Start journaling</a>
+    </section>
+  {% endif %}
+{% endblock %}
