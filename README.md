@@ -10,6 +10,14 @@ A Flask + SQLite mood journal MVP with email/password authentication, AI-generat
 - Safety-oriented fallback messaging for concerning entries
 - Apple-inspired visual design with responsive templates
 
+## Recent changes
+
+- Added metadata-only admin capabilities for operational visibility without exposing raw journal content.
+- Improved OpenAI analysis observability through the `/journal/analyze` endpoint and response metadata for easier debugging in browser devtools.
+- Refined the journal dashboard with a featured latest entry and collapsible older entries for a cleaner reading experience.
+- Added `.env` and `.env.example` support for local configuration and OpenAI credentials.
+- Added a root `AGENTS.md` file to capture repo-specific development guidance.
+
 ## Run locally
 
 1. Create a virtual environment and install dependencies:
