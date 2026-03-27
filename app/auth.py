@@ -18,6 +18,7 @@ from .db import get_db
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 
+# Require a logged-in user before allowing access to a route.
 def login_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
@@ -28,6 +29,7 @@ def login_required(view):
     return wrapped_view
 
 
+# Require an authenticated admin before allowing access to a route.
 def admin_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
@@ -42,6 +44,7 @@ def admin_required(view):
 
 
 @auth_bp.route("/signup", methods=("GET", "POST"))
+# Create a new user account and store a hashed password.
 def signup():
     if g.user:
         return redirect(url_for("journal.dashboard"))
@@ -86,6 +89,7 @@ def signup():
 
 
 @auth_bp.route("/login", methods=("GET", "POST"))
+# Authenticate a user and start their session.
 def login():
     if g.user:
         return redirect(url_for("journal.dashboard"))
@@ -110,6 +114,7 @@ def login():
 
 
 @auth_bp.route("/logout", methods=("POST",))
+# Clear the current session and return the user to the login page.
 def logout():
     session.clear()
     return redirect(url_for("auth.login"))

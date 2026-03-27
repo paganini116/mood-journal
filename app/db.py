@@ -4,6 +4,7 @@ from pathlib import Path
 from flask import current_app, g
 
 
+# Open the SQLite connection once per request and reuse it through Flask's context.
 def get_db():
     if "db" not in g:
         database_path = Path(current_app.config["DATABASE"])
@@ -16,12 +17,14 @@ def get_db():
     return g.db
 
 
+# Close the request-scoped database connection when the request ends.
 def close_db(_error=None):
     db = g.pop("db", None)
     if db is not None:
         db.close()
 
 
+# Create tables and backfill required columns for existing local databases.
 def init_db():
     db = get_db()
     schema_path = Path(__file__).with_name("schema.sql")
@@ -33,6 +36,7 @@ def init_db():
     db.commit()
 
 
+# Add a missing column to an existing table without recreating the database.
 def _ensure_column(db, table_name, column_name, column_definition):
     columns = db.execute(f"PRAGMA table_info({table_name})").fetchall()
     existing_column_names = {column["name"] for column in columns}

@@ -165,6 +165,7 @@ DEMO_USERS = [
 ]
 
 
+# Populate the local database with demo users and sample journal history.
 def seed():
     app = create_app()
 

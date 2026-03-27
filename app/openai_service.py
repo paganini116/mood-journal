@@ -7,6 +7,7 @@ class JournalAnalyzer:
     def __init__(self, client=None):
         self._client = client
 
+    # Send journal text to the model and normalize the result or fallback path.
     def analyze(self, entry_text):
         entry_text = (entry_text or "").strip()
         if not entry_text:
@@ -50,6 +51,7 @@ class JournalAnalyzer:
                 reason="openai_request_failed",
             )
 
+    # Build a fallback response and attach metadata about why it was used.
     def _fallback_with_metadata(self, flagged_for_safety, model, source, reason):
         if flagged_for_safety:
             result = self._safety_fallback_result()
@@ -62,6 +64,7 @@ class JournalAnalyzer:
         return result
 
     @property
+    # Lazily create the OpenAI client once the app has a configured API key.
     def client(self):
         if self._client is None:
             try:
@@ -79,6 +82,7 @@ class JournalAnalyzer:
 
         return self._client
 
+    # Build the prompt that requests structured mood-analysis fields from the model.
     def _build_prompt(self, entry_text):
         return f"""
 You are a supportive wellness coach for a mood journal application.
@@ -100,6 +104,7 @@ Journal entry:
 \"\"\"{entry_text}\"\"\"
 """.strip()
 
+    # Validate that the model returned all required fields before saving the result.
     def _normalize_result(self, payload):
         normalized = {
             "tone": str(payload.get("tone", "")).strip(),
@@ -124,6 +129,7 @@ Journal entry:
 
         return normalized
 
+    # Return a gentle generic reflection when a normal analysis response is unavailable.
     def _fallback_result(self):
         return {
             "tone": "Reflective",
@@ -140,6 +146,7 @@ Journal entry:
             "safety_note": "",
         }
 
+    # Return a stronger safety-oriented fallback when the entry suggests acute distress.
     def _safety_fallback_result(self):
         return {
             "tone": "Concerned",
@@ -159,6 +166,7 @@ Journal entry:
             ),
         }
 
+    # Detect concerning phrases locally so safety fallbacks can trigger without model help.
     def _detect_crisis_language(self, entry_text):
         lowered = entry_text.lower()
         markers = (

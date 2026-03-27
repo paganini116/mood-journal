@@ -17,6 +17,7 @@ from .openai_service import JournalAnalyzer
 journal_bp = Blueprint("journal", __name__, url_prefix="/journal")
 
 
+# Render the logged-in user's dashboard with their journal entries.
 @journal_bp.route("/")
 @login_required
 def dashboard():
@@ -34,6 +35,7 @@ def dashboard():
     return render_template("journal/dashboard.html", entries=entries)
 
 
+# Show the new-entry page and handle the standard form submission flow.
 @journal_bp.route("/new", methods=("GET", "POST"))
 @login_required
 def new_entry():
@@ -50,6 +52,7 @@ def new_entry():
     return render_template("journal/new_entry.html")
 
 
+# Accept the browser fetch request used to analyze and save a journal entry.
 @journal_bp.route("/analyze", methods=("POST",))
 @login_required
 def analyze_entry():
@@ -77,6 +80,7 @@ def analyze_entry():
     return response
 
 
+# Show the full detail view for a single journal entry owned by the user.
 @journal_bp.route("/<int:entry_id>")
 @login_required
 def entry_detail(entry_id):
@@ -96,6 +100,7 @@ def entry_detail(entry_id):
     return render_template("journal/detail.html", entry=entry)
 
 
+# Save a new entry, run analysis, and persist the resulting reflection fields.
 def _save_and_analyze_entry(raw_text):
     raw_text = (raw_text or "").strip()
 

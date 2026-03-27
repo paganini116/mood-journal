@@ -9,6 +9,7 @@ from .db import close_db, get_db, init_db
 from .journal import journal_bp
 
 
+# Build and configure the Flask application for both local and test usage.
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
@@ -37,6 +38,7 @@ def create_app(test_config=None):
     app.register_blueprint(journal_bp)
 
     @app.before_request
+    # Load the logged-in user from the session before each request.
     def load_logged_in_user():
         user_id = session.get("user_id")
         g.user = None
@@ -48,6 +50,7 @@ def create_app(test_config=None):
             ).fetchone()
 
     @app.route("/")
+    # Send visitors to the login page or dashboard depending on auth state.
     def home():
         if g.user:
             return redirect(url_for("journal.dashboard"))

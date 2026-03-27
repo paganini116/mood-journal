@@ -8,4 +8,5 @@ except ImportError:  # pragma: no cover - keeps local boot resilient before inst
 if load_dotenv is not None:
     load_dotenv()
 
+# Expose the Flask application instance for the development server.
 app = create_app()

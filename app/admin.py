@@ -7,6 +7,7 @@ from .db import get_db
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
 
+# Record an admin action without storing any journal content.
 def log_admin_action(action, target_type, target_id=None):
     db = get_db()
     db.execute(
@@ -21,6 +22,7 @@ def log_admin_action(action, target_type, target_id=None):
 
 @admin_bp.route("/")
 @admin_required
+# Show a metadata-only admin dashboard for operational visibility.
 def dashboard():
     db = get_db()
 
